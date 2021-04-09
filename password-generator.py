@@ -20,9 +20,9 @@ class PasswordGenerator:
 
     def generate_by_params(self, P, V, T, _sink=None):
         sink = _sink if isinstance(_sink, str) else self.sink
-        S = V * T.inMinutes / P
+        S = V.inMinutes * T.inMinutes / P
         # return log(S, len(sink))
-        return log(S, 36)
+        return log(S, len(sink))
 
 
 class Duration:
@@ -32,65 +32,63 @@ class Duration:
         self.hours = hours
         self.days = days
         self.weeks = weeks
+        self.value = None
 
     @property
     def inMinutes(self):
-        return self.minutes + (60 * self.hours) + (1440 * self.days) + (10080 * self.weeks)
+        minutes = self.minutes + (60 * self.hours) + \
+            (1440 * self.days) + (10080 * self.weeks)
+        return minutes if self.value is None else self.value / minutes
 
     @property
     def inHours(self):
-        return (self.minutes / 60) + self.hours + (24 * self.days) + (168 * self.weeks)
+        hours = (self.minutes / 60) + self.hours + \
+            (24 * self.days) + (168 * self.weeks)
+        return hours if self.value is None else self.value / hours
 
     @property
     def inDays(self):
-        return (self.minutes / 1440) + (self.hours / 24) + self.days + (7 * self.weeks)
+        days = (self.minutes / 1440) + (self.hours / 24) + \
+            self.days + (7 * self.weeks)
+        return days if self.value is None else self.value / days
 
     @property
     def inWeeks(self):
-        return (self.minutes / 10080) + (self.hours / 168) + (self.days / 7) + self.weeks
+        weeks = (self.minutes / 10080) + (self.hours / 168) + \
+            (self.days / 7) + self.weeks
+        return weeks if self.value is None else self.value / weeks
+
+    def __rtruediv__(self, value: int):
+        self.value = value
+        return self
 
 
 class Speed:
 
     def __init__(self, value):
         self.value = value
-        self.type = None
 
     @property
     def aMinute(self):
-        return Converter(self.value, [1, 1 / 60, 1440, 10080])
+        return self.value / Duration(minutes=1)
 
     @property
     def aHour(self):
-        return Converter(self.value, [1 / 60, 1, 24, 168])
+        return self.value / Duration(hours=1)
 
     @property
     def aDay(self):
-        return Converter(self.value, [1 / 1440, 1 / 24, 1, 7])
+        return self.value / Duration(days=1)
 
     @property
     def aWeek(self):
-        return Converter(self.value, [1 / 10080, 1 / 168, 1 / 7, 1])
-
-
-class Converter():
-
-    def __init__(self, value, rules):
-        self.value = value
-        self.rules = rules
-
-    @property
-    def toMinutes(self):
-        return self.value * self.rules[0]
-
-    @property
-    def toHours(self):
-        return self.value * self.rules[1]
+        return self.value / Duration(weeks=1)
 
 
 if __name__ == '__main__':
     password_generator = PasswordGenerator(ascii_letters, digits, punctuation)
     # print(Duration(weeks=Speed(1).aHour).inMinutes)
-    # print(password_generator.generate_by_params(
-    #     P=10**(-6), V=Speed(10).aWeek, T=Duration(weeks=1)))
-    print(Speed(10).aDay.toMinutes)
+    print(password_generator.generate_by_params(
+        P=10**(-6), V=Speed(10).aMinute, T=Duration(weeks=1)))
+    print(password_generator.generate_by_params(
+        P=10**(-6), V=10/Duration(minutes=1), T=Duration(days=7)))
