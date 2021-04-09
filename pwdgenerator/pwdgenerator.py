@@ -21,11 +21,11 @@ class PasswordGenerator:
     def generate_by_length(self, length):
         return ''.join(choice(self.sink) for _ in range(length))
 
-    def generate_by_params(self, P, V, T, _sink=None):
+    def generate_by_params(self, P, V, T, _sink: str = None):
         sink = _sink if isinstance(_sink, str) else self.sink
         S = V.inMinutes * T.inMinutes / P
         # return log(S, len(sink))
-        return log(S, len(sink))
+        return log(S, 36)
 
 
 if __name__ == '__main__':
