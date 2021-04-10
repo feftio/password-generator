@@ -8,8 +8,10 @@ setup(
   author='Lik Eduard',
   author_email='feft99@gmail.com',
   keywords='password',
-  packages=['pwdgenerator']
+  packages=find_packages(),
   install_requires=[
-    'pytest'
+    'pytest',
+    'pyinstaller',
+    'rich'
   ]
 )
