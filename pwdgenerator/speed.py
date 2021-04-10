@@ -1,4 +1,4 @@
-from duration import Duration
+from pwdgenerator.duration import Duration
 
 
 class Speed:
