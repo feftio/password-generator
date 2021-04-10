@@ -1,14 +1,13 @@
-from string import ascii_letters, ascii_lowercase, ascii_uppercase, digits, punctuation
+from pwdgenerator.password import Password
 from random import choice
 from math import ceil, log
-from duration import Duration
-from speed import Speed
 
 
-class PasswordGenerator:
+class PwdGenerator:
 
     def __init__(self, *args: str):
         self.sink = ''.join(args)
+        self.min_length = None
 
     @property
     def sink(self):
@@ -18,18 +17,16 @@ class PasswordGenerator:
     def sink(self, string: str):
         self.__sink = string
 
+    def set_min_length(self, min):
+        self.min_length = min
+
     def generate_by_length(self, length):
         return ''.join(choice(self.sink) for _ in range(length))
 
-    def generate_by_params(self, P, V, T, _sink: str = None):
-        sink = _sink if isinstance(_sink, str) else self.sink
-        S = V.inMinutes * T.inMinutes / P
-        # return log(S, len(sink))
-        return log(S, 36)
-
-
-if __name__ == '__main__':
-    password_generator = PasswordGenerator(ascii_letters, digits, punctuation)
-    # print(Duration(weeks=Speed(1).aHour).inMinutes)
-    print(password_generator.generate_by_params(
-        P=10**(-6), V=Speed(10).aMinute, T=Duration(weeks=1)))
+    def generate_by_params(self, P, V, T, sink: str = None):
+        sink = sink if isinstance(sink, str) else self.sink
+        A, S = len(sink), V.inMinutes * T.inMinutes / P
+        L = int(log(S) / log(A)) + 1
+        if self.min_length is not None and self.min_length > L:
+            L = self.min_length
+        return Password(self.generate_by_length(L), A=A, P=P, V=V, T=T)
