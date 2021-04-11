@@ -1,4 +1,4 @@
-from pwdgenerator import PwdGenerator, Speed, Duration
+from pwdgenerator import Generator, Speed, Duration
 from rich.table import Table
 from rich.console import Console
 from string import ascii_letters, digits, punctuation
@@ -14,7 +14,7 @@ def main():
         string) >= 1 else ascii_letters + digits + punctuation
     console.print(f'Набор символов для генерации: [magenta]{string}[/magenta]')
 
-    pwdgenerator = PwdGenerator(string)
+    pwdgenerator = Generator(string)
     pwdgenerator.set_min_length(6)
 
     passwords = [

@@ -3,7 +3,7 @@ from random import choice
 from math import ceil, log
 
 
-class PwdGenerator:
+class Generator:
 
     def __init__(self, *args: str):
         self.sink = ''.join(args)
