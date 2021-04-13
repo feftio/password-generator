@@ -14,8 +14,8 @@ def main():
         string) >= 1 else ascii_letters + digits + punctuation
     console.print(f'Набор символов для генерации: [magenta]{string}[/magenta]')
 
-    pwdgenerator = Generator(string)
-    pwdgenerator.set_min_length(6)
+    pwdgenerator = Generator(list(string))
+    pwdgenerator.min_length = 6
 
     passwords = [
 
