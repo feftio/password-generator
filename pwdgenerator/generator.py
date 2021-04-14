@@ -9,6 +9,11 @@ def string_to_list(string: str):
         return string
     return list(string)
 
+def object_to_string(_object):
+    if not isinstance(_object, str):
+        return str(_object)
+    return _object
+
 
 class Generator:
 
@@ -33,7 +38,6 @@ class Generator:
         for i in range(len(templates)):
             templates[i] = string_to_list(templates[i])
             for j in range(len(templates[i])):
-                if not isinstance(templates[i][j], str):
-                    templates[i][j] = str(templates[i][j])
+                templates[i][j] = object_to_string(templates[i][j])
             password.append(choice(templates[i]))
         return ''.join(password)
