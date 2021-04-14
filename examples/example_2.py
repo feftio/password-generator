@@ -292,6 +292,21 @@ for _ in range(Q + 3 + 1, 11 + 1):
     variants[20].append(DIGITS)
 
 
+# Вариант 21
+
+Q = N % 8
+
+variants[21].extend([
+    *[SYMBOLS] * 2
+])
+
+for _ in range(3, Q + 3 + 1):
+    variants[21].append(RUS_LOWER)
+
+for _ in range(Q + 3 + 1, 11 + 1):
+    variants[21].append(DIGITS)
+
+
 for i in range(1, 31):
     print('')
     print(f'Вариант {i}')
