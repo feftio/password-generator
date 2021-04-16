@@ -18,7 +18,7 @@ def object_to_string(_object):
 class Generator:
 
     def __init__(self, symbols=[]):
-        self.sink : List[str] = ''.join(args)
+        self.sink : List[str] = ''.join(symbols)
         self.min_length : int = None
 
     def generate_by_length(self, length):
