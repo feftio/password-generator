@@ -14,6 +14,7 @@ alphabets = {
     'Свой собственный': ''
 }
 
+
 def choose_alphabet():
     console.print('Выберите алфавит: ')
     alphabets_keys = list(alphabets.keys())
@@ -21,17 +22,21 @@ def choose_alphabet():
     for i in range(len(alphabets_keys)):
         console.print(f'{i + 1}. {alphabets_keys[i]}')
     index = abs(int(console.input()))
-    console.print(f'Выбран [magenta]{alphabets_keys[index - 1].lower()}[/magenta] алфавит.')
+    console.print(
+        f'Выбран [magenta]{alphabets_keys[index - 1].lower()}[/magenta] алфавит.')
     if len(alphabets_keys) == index:
         return console.input('Введите алфавит: ')
     return alphabets_values[index - 1]
+
 
 def main(alphabet):
     vigenere = Vigenere(alphabet)
     text = console.input('Введите текст: ')
     key = console.input('Введите ключ: ')
-    console.print(f'Расшифрованное значение: [magenta]{vigenere.decrypt(text, key)}[/magenta]')
-    console.print(f'Зашифрованное значение: [magenta]{vigenere.encrypt(text, key)}[/magenta]')
+    console.print(
+        f'Расшифрованное значение: [magenta]{vigenere.decrypt(text, key)}[/magenta]')
+    console.print(
+        f'Зашифрованное значение: [magenta]{vigenere.encrypt(text, key)}[/magenta]')
 
 
 if __name__ == '__main__':
@@ -42,4 +47,5 @@ if __name__ == '__main__':
         except:
             console.print('[magenta]Такого индекса нет.[/magenta]')
     while(True):
+        console.print('')
         main(alphabet)
