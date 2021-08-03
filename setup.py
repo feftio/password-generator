@@ -12,6 +12,7 @@ setup(
   install_requires=[
     'pytest',
     'pyinstaller',
-    'rich'
+    'rich',
+    'autopep8'
   ]
 )
