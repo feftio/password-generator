@@ -1,12 +1,13 @@
+from __future__ import annotations
+import typing as t
 from pwdgenerator.utils import stuple, lower, slist
 
 
 class Vigenere:
+    def __init__(self, alphabet: str):
+        self.alphabet: str = alphabet
 
-    def __init__(self, alphabet):
-        self.alphabet = stuple(lower(alphabet))
-
-    def __basecrypt(self, plaintext, key, bias):
+    def __basecrypt(self, plaintext: str, key: str, bias: int) -> str:
         alphabet, result, islower, i = self.alphabet, [], False, 0
         plaintext = slist(plaintext)
         key = stuple(key)
@@ -28,8 +29,8 @@ class Vigenere:
             i += 1
         return ''.join(result)
 
-    def decrypt(self, plaintext, key):
+    def decrypt(self, plaintext: str, key: str) -> str:
         return self.__basecrypt(plaintext, key, -1)
 
-    def encrypt(self, plaintext, key):
+    def encrypt(self, plaintext: str, key: str) -> str:
         return self.__basecrypt(plaintext, key, 1)
